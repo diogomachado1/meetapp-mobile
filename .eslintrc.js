@@ -29,7 +29,9 @@ module.exports = {
     'no-param-reassign': 'off',
     'no-console': ["error", { allow: ["tron"] }],
     'react-hooks/rules-of-hooks': 'error',
-    'react-hooks/exhaustive-deps': 'warn'
+    'react-hooks/exhaustive-deps': 'warn',
+    'react/jsx-props-no-spreading': 'off',
+    "react/prop-types": ["error", { "ignore": ["navigation"] }]
   },
   settings: {
     "import/resolver": {
