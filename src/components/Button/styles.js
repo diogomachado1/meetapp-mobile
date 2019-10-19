@@ -7,6 +7,7 @@ export const Container = styled(RectButton)`
   border-radius: 4px;
   align-items: center;
   justify-content: center;
+  opacity: ${({ disabled }) => (disabled ? '0.4' : '1')};
 `;
 
 export const Text = styled.Text`
