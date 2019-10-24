@@ -47,9 +47,9 @@ const schema = Yup.object().shape({
     ),
 });
 
-export default function SignIn({ navigation }) {
+export default function SignIn() {
   const profile = useSelector(state => state.user.profile);
-  const { register, setValue, handleSubmit, errors, getValues } = useForm({
+  const { register, setValue, handleSubmit, errors } = useForm({
     defaultValues: profile,
     validationSchema: schema,
   });
@@ -59,8 +59,6 @@ export default function SignIn({ navigation }) {
 
   function onSubmit(value) {
     dispatch(updateProfileRequest(value));
-
-    // dispatch(updateProfileRequest(data));
   }
 
   return (

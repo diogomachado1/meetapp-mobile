@@ -28,6 +28,21 @@ export default function auth(state = INITIAL_STATE, action) {
         draft.signed = false;
         break;
       }
+      case '@auth/SIGN_UP_REQUEST': {
+        draft.loading = true;
+        draft.profile = action.payload.profile;
+        break;
+      }
+      case '@user/UPDATE_PROFILE_REQUEST': {
+        draft.loading = true;
+        draft.profile = action.payload.profile;
+        break;
+      }
+      case '@user/UPDATE_PROFILE_SUCCESS': {
+        draft.loading = false;
+        draft.profile = action.payload.profile;
+        break;
+      }
       default:
     }
   });

@@ -58,65 +58,15 @@ function AuthRoutes() {
 
 export default function App() {
   const signed = useSelector(state => state.auth.signed);
-
   return (
     <NavigationNativeContainer>
-      {signed ? <Screens /> : <AuthRoutes />}
+      <Tab.Navigator tabBarOptions={{ style: { display: 'none' } }}>
+        {signed ? (
+          <Tab.Screen name="Screens" component={Screens} />
+        ) : (
+          <Tab.Screen name="AuthRoutes" component={AuthRoutes} />
+        )}
+      </Tab.Navigator>
     </NavigationNativeContainer>
   );
 }
-
-// const AuthRoutes = createSwitchNavigator(
-//     {
-//       SignIn,
-//       SignUp
-//     },
-//     {
-//       initialRouteName: 'SignIn',
-//     }
-//   )
-// export default (isSigned = false) =>
-//   createAppContainer(
-//     createSwitchNavigator(
-//       {
-//         Sign: createSwitchNavigator({
-//           SignIn,
-//           SignUp,
-//         }),
-//         Screen: createStackNavigator(
-//           {
-//             App: TabBottom,
-//           },
-//           {
-//             defaultNavigationOptions: {
-//               headerTintColor: '#fff',
-//               headerTitle: <HeaderBar />,
-//             },
-//           }
-//         ),
-//       },
-//       {
-//         initialRouteName: isSigned ? 'Screen' : 'Sign',
-//       }
-//     )
-//   );
-
-// createBottomTabNavigator(
-//   {
-//     Meetups,
-//     Subscriptions,
-//     Profile,
-//   },
-//   {
-//     resetOnBlur: true,
-//     tabBarOptions: {
-//       keyboardHidesTabBar: true,
-//       activeTintColor: '#FFF',
-//       inactiveTintColor: 'rgba(255, 255, 255, 0.6)',
-//       style: {
-//         borderTopColor: '#fff0',
-//         backgroundColor: '#2B1A2F',
-//       },
-//     },
-//   }
-// ),
