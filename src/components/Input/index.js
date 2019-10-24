@@ -8,7 +8,6 @@ import { Container, TInput } from './styles';
 function Input({ style, icon, ...rest }, ref) {
   return (
     <Container styled={style}>
-      {icon && <Icon name={icon} size={20} color="#fff9" />}
       <TInput {...rest} ref={ref} />
     </Container>
   );

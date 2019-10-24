@@ -1,9 +1,9 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import * as Yup from 'yup';
 
 import useForm from 'react-hook-form';
-import Button from '~/components/Button';
-import { signUpRequest, signOut } from '~/store/modules/auth/actions';
+import { signOut } from '~/store/modules/auth/actions';
 
 import { Background } from '~/components/Background';
 
@@ -11,26 +11,55 @@ import {
   Container,
   Form,
   FormInput,
-  SubmitButton,
-  SignLink,
-  SignLinkText,
+  ErrorText,
+  Separator,
+  SaveButton,
+  ExitButton,
 } from './styles';
+import { updateProfileRequest } from '~/store/modules/user/actions';
+
+function covertUndefined(value) {
+  return value === '' ? undefined : value;
+}
+
+const schema = Yup.object().shape({
+  name: Yup.string().transform(covertUndefined),
+  email: Yup.string()
+    .transform(covertUndefined)
+    .email('Insira um e-mail válido'),
+  oldPassword: Yup.string()
+    .transform(covertUndefined)
+    .min(6, 'Minimo 6 caracteres')
+    .when('password', (password, field) =>
+      password ? field.required('Precisa da sua senha atual') : field
+    ),
+  password: Yup.string()
+    .transform(covertUndefined)
+    .min(6, 'Minimo 6 caracteres'),
+  confirmPassword: Yup.string()
+    .transform(covertUndefined)
+    .when('password', (password, field) =>
+      password
+        ? field
+            .required('Confirme a senha')
+            .oneOf([Yup.ref('password')], 'Senhas não são iguais')
+        : field
+    ),
+});
 
 export default function SignIn({ navigation }) {
   const profile = useSelector(state => state.user.profile);
-  const { register, setValue, handleSubmit } = useForm();
+  const { register, setValue, handleSubmit, errors, getValues } = useForm({
+    defaultValues: profile,
+    validationSchema: schema,
+  });
   const dispatch = useDispatch();
-  const emailRef = useRef();
-  const passwordRef = useRef();
-
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
 
   const loading = useSelector(state => state.auth.loading);
 
   function onSubmit(value) {
-    console.tron.log(value);
+    dispatch(updateProfileRequest(value));
+
     // dispatch(updateProfileRequest(data));
   }
 
@@ -44,7 +73,6 @@ export default function SignIn({ navigation }) {
             placeholder="Nome completo"
             returnKeyType="next"
             defaultValue={profile.name}
-            onSubmitEditing={() => emailRef.current.focus()}
             onChangeText={text => setValue('name', text)}
           />
           <FormInput
@@ -53,12 +81,48 @@ export default function SignIn({ navigation }) {
             placeholder="Digite seu e-mail"
             returnKeyType="next"
             defaultValue={profile.email}
-            onSubmitEditing={() => emailRef.current.focus()}
             onChangeText={text => setValue('email', text)}
           />
+          {errors.email && <ErrorText>{errors.email.message}</ErrorText>}
+          <Separator />
+          <FormInput
+            secureTextEntry
+            ref={register({ name: 'oldPassword' })}
+            autoCorrect={false}
+            placeholder="Senha atual"
+            returnKeyType="next"
+            onChangeText={text => setValue('oldPassword', text)}
+          />
+          {errors.oldPassword && (
+            <ErrorText>{errors.oldPassword.message}</ErrorText>
+          )}
 
-          <Button onPress={handleSubmit(onSubmit)}>Alterar</Button>
-          <Button onPress={() => dispatch(signOut())}>Sair</Button>
+          <FormInput
+            secureTextEntry
+            ref={register({ name: 'password' })}
+            autoCorrect={false}
+            placeholder="Nova senha"
+            returnKeyType="next"
+            onChangeText={text => setValue('password', text)}
+          />
+          {errors.password && <ErrorText>{errors.password.message}</ErrorText>}
+
+          <FormInput
+            secureTextEntry
+            ref={register({ name: 'confirmPassword' })}
+            autoCorrect={false}
+            placeholder="Confirmação de senha"
+            returnKeyType="next"
+            onChangeText={text => setValue('confirmPassword', text)}
+          />
+          {errors.confirmPassword && (
+            <ErrorText>{errors.confirmPassword.message}</ErrorText>
+          )}
+
+          <SaveButton loading={loading} onPress={handleSubmit(onSubmit)}>
+            Salvar perfil
+          </SaveButton>
+          <ExitButton onPress={() => dispatch(signOut())}>Sair</ExitButton>
         </Form>
       </Container>
     </Background>

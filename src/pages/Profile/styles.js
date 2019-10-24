@@ -9,30 +9,37 @@ export const Container = styled.KeyboardAvoidingView.attrs({
   behavior: 'padding',
 })`
   flex: 1;
-  justify-content: center;
   align-items: center;
-  padding: 0 20px;
+  padding: 20px;
 `;
 
-export const Form = styled.View`
+export const Form = styled.ScrollView`
   align-self: stretch;
-  margin-top: 50px;
 `;
 
 export const FormInput = styled(Input)`
   margin-bottom: 30px;
 `;
 
-export const SubmitButton = styled(Button)`
+export const ErrorText = styled.Text`
+  color: #f00;
+`;
+
+export const Separator = styled.View`
+  margin: 20px 0;
+  border-bottom-color: #979797aa;
+  border-bottom-width: 1px;
+`;
+
+export const SaveButton = styled(Button).attrs({
+  color: '#E5556E',
+})`
   margin-top: 15px;
+  height: 50px;
 `;
 
-export const SignLink = styled.TouchableOpacity`
-  margin-top: 20px;
-`;
-
-export const SignLinkText = styled.Text`
-  color: #fff;
-  font-weight: bold;
-  font-size: 16px;
+export const ExitButton = styled(Button).attrs({
+  color: '#D44059',
+})`
+  margin-top: 15px;
 `;
