@@ -14,7 +14,7 @@ import {
   ButtonCard,
 } from './styles';
 
-export default function MeetupCard({ meetup }) {
+export default function MeetupCard({ meetup, action, textAction, color }) {
   return (
     <Container>
       <ImageMeetup
@@ -40,7 +40,9 @@ export default function MeetupCard({ meetup }) {
           <Icon name="person" size={20} color="#999" />
           <Text>{meetup.user.name}</Text>
         </Detail>
-        <ButtonCard color="#F94D6A">Realizar inscrição</ButtonCard>
+        <ButtonCard onPress={action} color={color}>
+          {textAction}
+        </ButtonCard>
       </Details>
     </Container>
   );
@@ -49,4 +51,11 @@ export default function MeetupCard({ meetup }) {
 MeetupCard.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   meetup: PropTypes.object.isRequired,
+  action: PropTypes.func.isRequired,
+  textAction: PropTypes.string.isRequired,
+  color: PropTypes.string,
+};
+
+MeetupCard.defaultProps = {
+  color: '#F94D6A',
 };
