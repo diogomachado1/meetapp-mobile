@@ -17,7 +17,7 @@
     "@react-navigation/core": "^5.0.0-alpha.17",
     "@react-navigation/native": "^5.0.0-alpha.13",
     "@react-navigation/stack": "^5.0.0-alpha.28",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "date-fns": "^2.4.1",
     "immer": "^4.0.1",
     "polished": "^3.4.1",
